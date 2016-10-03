@@ -9,7 +9,6 @@ Windows: [![Build Status](https://ci.appveyor.com/api/projects/status/github/jla
 [![codecov.io](http://codecov.io/github/jlapeyre/FunctionZeros.jl/coverage.svg?branch=master)](http://codecov.io/github/jlapeyre/FunctionZeros.jl?branch=master)
 
 This module provides a function to compute the zeros of the Bessel J function.
-No tests are written.
 
 #### besselj_zero(nu,n)
 
