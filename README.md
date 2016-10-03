@@ -1,5 +1,5 @@
 # FunctionZeros
-* Zeros of the Bessel J function*
+*Zeros of the Bessel J function*
 
 Linux, OSX: [![Build Status](https://travis-ci.org/jlapeyre/FunctionZeros.jl.svg)](https://travis-ci.org/jlapeyre/FunctionZeros.jl)
 &nbsp;
