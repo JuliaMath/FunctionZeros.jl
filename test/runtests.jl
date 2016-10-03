@@ -93,3 +93,6 @@ for nu in 1:5
         @test_approx_eq besselj_zero(nu-1,n) zs[nu][n]
     end
 end
+
+@test length(besselj_zero([.1,.2],1)) == 2
+@test length(FunctionZeros.besselj_asymptotic_zero([.1,.2],1)) == 2
