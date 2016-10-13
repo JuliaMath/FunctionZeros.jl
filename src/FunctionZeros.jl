@@ -1,3 +1,5 @@
+VERSION >= v"0.4.0-dev+6521" && __precompile__()
+
 module FunctionZeros
 
 using Roots
@@ -26,7 +28,8 @@ for `n` = `1,2,...`. `besselj_zero` is vectorized.
 function besselj_zero(nu,n)
     z = besselj_asymptotic_zero(nu,n)
     bf = (x) -> besselj(nu,x)
-    return fzero(bf,z,ftol=1e-15)
+#    return fzero(bf,z,ftol=1e-15)
+    return fzero(bf,z)    
 end
 
 Base.@vectorize_2arg Number besselj_zero
