@@ -1,7 +1,7 @@
 using FunctionZeros
 using Base.Test
 
-zs = Array(Array{Float64,1},0)
+zs = Array{Array{Float64,1}}(0)
 
 push!(zs,
 [2.4048255576957727686,
@@ -90,9 +90,15 @@ push!(zs,
 
 for nu in 1:5
     for n in 1:15
-        @test_approx_eq besselj_zero(nu-1,n) zs[nu][n]
+        @test isapprox(besselj_zero(nu-1,n), zs[nu][n])
     end
 end
 
-@test length(besselj_zero([.1,.2],1)) == 2
-@test length(FunctionZeros.besselj_asymptotic_zero([.1,.2],1)) == 2
+
+if VERSION <= v"0.4.0"
+  @test length(besselj_zero([.1,.2],1)) == 2
+  @test length(FunctionZeros.besselj_asymptotic_zero([.1,.2],1)) == 2
+else
+  @test length(besselj_zero.([.1,.2],1)) == 2
+  @test length(FunctionZeros.besselj_asymptotic_zero.([.1,.2],1)) == 2
+end

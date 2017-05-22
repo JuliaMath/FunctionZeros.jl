@@ -29,10 +29,17 @@ function besselj_zero(nu,n)
     z = besselj_asymptotic_zero(nu,n)
     bf = (x) -> besselj(nu,x)
 #    return fzero(bf,z,ftol=1e-15)
-    return fzero(bf,z)    
+    return fzero(bf,z)
 end
 
-Base.@vectorize_2arg Number besselj_zero
-Base.@vectorize_2arg Number besselj_asymptotic_zero
+
+## Following does not work. Need to eval macrocall, or try something else.
+
+if VERSION >= v"0.5.0"
+    nothing
+else
+    Base.@vectorize_2arg Number besselj_zero
+    Base.@vectorize_2arg Number besselj_asymptotic_zero
+end
 
 end # module FunctionZeros
