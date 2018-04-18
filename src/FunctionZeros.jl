@@ -2,6 +2,8 @@ __precompile__()
 
 module FunctionZeros
 
+import SpecialFunctions
+
 using Roots
 
 export besselj_zero
@@ -27,7 +29,7 @@ for `n` = `1,2,...`. `besselj_zero` is vectorized.
 """
 function besselj_zero(nu,n)
     z = besselj_asymptotic_zero(nu,n)
-    bf = (x) -> besselj(nu,x)
+    bf = (x) -> SpecialFunctions.besselj(nu,x)
     return fzero(bf,z)
 end
 
