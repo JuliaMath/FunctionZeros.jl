@@ -17,13 +17,8 @@ besselj_zero(nu,n)
 ```
 
 Return the `n`th zero of the the Bessel J function of order `nu`. The returned
-type has the same type as `nu`. `besselj_zero` is vectorized.
+type has the same type as `nu`.
 
 #### besselj_asymptotic_zero(nu,n)
 
 Use asymptotic form expression for the zeros. This function is not exported.
-
-#### Notes
-
-There are a few modules like this one implementing some special functions. They should
-probably be collected in some organized way.
