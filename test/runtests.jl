@@ -71,7 +71,7 @@ let zs = Array{Array{Float64,1}}(undef, 0)
            47.817785691533301888,
            50.965029906205183304])
 
-    push!(zs,      
+    push!(zs,
           [7.5883424345038043850,
            11.064709488501184882,
            14.372536671617589679,
@@ -97,4 +97,3 @@ end # let
 
 @test length(besselj_zero.([.1,.2],1)) == 2
 @test length(FunctionZeros.besselj_asymptotic_zero.([.1,.2],1)) == 2
-

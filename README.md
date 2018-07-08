@@ -19,6 +19,6 @@ besselj_zero(nu,n)
 Return the `n`th zero of the the Bessel J function of order `nu`. The returned
 type has the same type as `nu`.
 
-#### besselj_asymptotic_zero(nu,n)
+#### FunctionZeros.besselj_asymptotic_zero(nu,n)
 
-Use asymptotic form expression for the zeros. This function is not exported.
+Asymptotic formula for the `n`th zero fo the the Bessel J function of order `nu`.
