@@ -96,4 +96,4 @@ let zs = Array{Array{Float64,1}}(undef, 0)
 end # let
 
 @test length(besselj_zero.([.1,.2],1)) == 2
-@test length(FunctionZeros.besselj_asymptotic_zero.([.1,.2],1)) == 2
+@test length(FunctionZeros.besselj_zero_asymptotic.([.1,.2],1)) == 2

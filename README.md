@@ -10,15 +10,19 @@ Windows: [![Build Status](https://ci.appveyor.com/api/projects/status/github/jla
 
 This module provides a function to compute the zeros of the Bessel J function.
 
-#### besselj_zero(nu,n)
+#### besselj_zero(nu, n)
 
 ```julia
-besselj_zero(nu,n)
+besselj_zero(nu, n)
 ```
 
 Return the `n`th zero of the the Bessel J function of order `nu`. The returned
 type has the same type as `nu`.
 
-#### FunctionZeros.besselj_asymptotic_zero(nu,n)
+#### FunctionZeros.besselj_zero_asymptotic(nu, n)
 
 Asymptotic formula for the `n`th zero fo the the Bessel J function of order `nu`.
+
+```julia
+besselj_zero_asymptotic(nu, n)
+```
