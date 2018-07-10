@@ -7,4 +7,3 @@ import SpecialFunctions
 
 const z = besselj_zero(3,10)
 zer = SpecialFunctions.besselj(3,z)
-
