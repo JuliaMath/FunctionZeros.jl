@@ -1,0 +1,19 @@
+name = "FunctionZeros"
+uuid = "b21f74c0-b399-568f-9643-d20f4fa2c814"
+authors = ["John Lapeyre <jlapeyre@users.noreply.github.com>"]
+version = "0.1.1"
+
+[deps]
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
+
+[compat]
+julia = "1"
+Roots = "0.8"
+SpecialFunctions = "0.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
