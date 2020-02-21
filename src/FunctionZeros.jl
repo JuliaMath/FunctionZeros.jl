@@ -24,21 +24,25 @@ bessely_zero_asymptotic(nu, n) = pi * (n + nu / 2 - 3//4)
 # Order 0 is 6 times slower and 50-100 times less accurate
 # than higher orders, with other parameters constant.
 """
-    besselj_zero(nu, n)
+    besselj_zero(nu, n; order=2)
 
 `n`th zero of the Bessel J function of order `nu`,
 for `n` = `1,2,...`.
+
+`order` is passed to the function `Roots.fzero`.
 """
-besselj_zero(nu, n) = Roots.fzero((x) -> SpecialFunctions.besselj(nu, x),
-                                  besselj_zero_asymptotic(nu, n); order=1)
+besselj_zero(nu, n; order=2) = Roots.fzero((x) -> SpecialFunctions.besselj(nu, x),
+                                  besselj_zero_asymptotic(nu, n); order=order)
 
 """
-    bessely_zero(nu, n)
+    bessely_zero(nu, n; order=2)
 
 `n`th zero of the Bessel Y function of order `nu`,
 for `n` = `1,2,...`.
+
+`order` is passed to the function `Roots.fzero`.
 """
-bessely_zero(nu, n) = Roots.fzero((x) -> SpecialFunctions.bessely(nu, x),
-                                 bessely_zero_asymptotic(nu, n); order=1)
+bessely_zero(nu, n; order=2) = Roots.fzero((x) -> SpecialFunctions.bessely(nu, x),
+                                 bessely_zero_asymptotic(nu, n); order=order)
 
 end # module FunctionZeros

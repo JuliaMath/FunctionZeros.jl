@@ -88,12 +88,20 @@ let zs = Array{Array{Float64,1}}(undef, 0)
            49.320360686390272118,
            52.471551398458022628])
 
+@testset "test many zeros" begin
     for nu in 1:5
         for n in 1:15
             @test isapprox(besselj_zero(nu-1,n), zs[nu][n])
         end
     end
+end
 end # let
 
-@test length(besselj_zero.([.1,.2],1)) == 2
-@test length(FunctionZeros.besselj_zero_asymptotic.([.1,.2],1)) == 2
+@testset "issue #2" begin
+    @test abs(besselj_zero(-60, 6) - -103.87138471588182) < 1e-14
+end
+
+@testset "broadcasting" begin
+    @test length(besselj_zero.([.1,.2],1)) == 2
+    @test length(FunctionZeros.besselj_zero_asymptotic.([.1,.2],1)) == 2
+end

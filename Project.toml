@@ -1,7 +1,7 @@
 name = "FunctionZeros"
 uuid = "b21f74c0-b399-568f-9643-d20f4fa2c814"
 authors = ["John Lapeyre <jlapeyre@users.noreply.github.com>"]
-version = "0.1.1"
+version = "0.2.0"
 
 [deps]
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
