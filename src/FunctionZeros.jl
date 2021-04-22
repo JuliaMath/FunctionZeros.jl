@@ -4,13 +4,17 @@ import Roots
 
 export besselj_zero, bessely_zero
 
-"""
-    besselj_zero_asymptotic_four_terms(nu, n, kind=1)
 
-Asymptotic formula for the `n`th zero of the the Bessel J function of order `nu`.
+besselj_zero_asymptotic(nu, n) = bessel_zero_asymptotic(nu, n, 1)
+
+"""
+    bessel_zero_asymptotic(nu, n, kind=1)
+
+Asymptotic formula for the `n`th zero of the the Bessel J (Y) function of order `nu`.
 `kind == 1 (2)` for Bessel function of the first (second) kind, J (Y).
 """
-function besselj_zero_asymptotic_four_terms(nu::Real, n::Integer, kind=1)
+function bessel_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
+    nu = abs(nu_in)
     if kind == 1
         beta = MathConstants.pi * (n + nu / 2 - 1//4)
     else # kind == 2
@@ -33,22 +37,6 @@ function besselj_zero_asymptotic_four_terms(nu::Real, n::Integer, kind=1)
     return zero_asymp
 end
 
-
-# Asymptotic formula for zeros of Bessel J function of order nu
-"""
-    besselj_zero_asymptotic(nu, n)
-
-Asymptotic formula for the `n`th zero of the the Bessel J function of order `nu`.
-"""
-besselj_zero_asymptotic(nu, n) = pi * (n - 1 + nu / 2 + 3//4)
-
-"""
-    bessely_zero_asymptotic(nu, n)
-
-Asymptotic formula for the `n`th zero of the the Bessel Y function of order `nu`.
-"""
-bessely_zero_asymptotic(nu, n) = pi * (n + nu / 2 - 3//4)
-
 # Use the asymptotic values as starting values.
 # These find the correct zeros even for n = 1,2,...
 # Order 0 is 6 times slower and 50-100 times less accurate
@@ -62,7 +50,7 @@ for `n` = `1,2,...`.
 `order` is passed to the function `Roots.fzero`.
 """
 besselj_zero(nu, n; order=2) = Roots.fzero((x) -> SpecialFunctions.besselj(nu, x),
-                                           besselj_zero_asymptotic_four_terms(nu, n); order=order)
+                                           bessel_zero_asymptotic(nu, n, 1); order=order)
 
 """
     bessely_zero(nu, n; order=2)
@@ -73,6 +61,6 @@ for `n` = `1,2,...`.
 `order` is passed to the function `Roots.fzero`.
 """
 bessely_zero(nu, n; order=2) = Roots.fzero((x) -> SpecialFunctions.bessely(nu, x),
-                                           besselj_zero_asymptotic_four_terms(nu, n, 2); order=order)
+                                           bessel_zero_asymptotic(nu, n, 2); order=order)
 
 end # module FunctionZeros

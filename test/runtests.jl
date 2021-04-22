@@ -97,9 +97,8 @@ let zs = Array{Array{Float64,1}}(undef, 0)
 end
 end # let
 
-# FIXME: This zero is incorrect. We probably should not support negative nu at the moment.
 @testset "issue #2" begin
-    @test abs(besselj_zero(-60, 6) - -28.96328757359854) < 1e-14
+    @test abs(besselj_zero(-60, 6) - 91.92959900770096) < 1e-14
 end
 
 # issue #10
@@ -112,9 +111,4 @@ end
     @test isapprox(besselj_zero(60, 2), 73.50669452996178)
 
     @test isapprox(bessely_zero(20, 1), 22.625159280072324)
-end
-
-@testset "broadcasting" begin
-    @test length(besselj_zero.([.1,.2],1)) == 2
-    @test length(FunctionZeros.besselj_zero_asymptotic.([.1,.2],1)) == 2
 end
