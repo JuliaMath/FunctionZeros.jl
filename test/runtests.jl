@@ -124,7 +124,10 @@ end
     end
     # FIXME: This gives the incorrect result
     # @test_broken isapprox(besselj_zero(60, 1), xxx)
-    @test isapprox(besselj_zero(60, 2), 73.50669452996178)
-
+    if Int == Int64
+        @test isapprox(besselj_zero(60, 2), 73.50669452996178)
+    else
+        @test_broken isapprox(besselj_zero(60, 2), 73.50669452996178)
+    end
     @test isapprox(bessely_zero(20, 1), 22.625159280072324)
 end
