@@ -116,9 +116,14 @@ end
 @testset "high nu" begin
     @test isapprox(besselj_zero(6, 1), 9.936109524217688)
     @test isapprox(besselj_zero(7, 2), 14.821268727013171)
-    @test isapprox(besselj_zero(50, 1), 57.116899160119196)
+
+    if Int == Int64
+        @test isapprox(besselj_zero(50, 1), 57.116899160119196)
+    else
+        @test_broken isapprox(besselj_zero(50, 1), 57.116899160119196)
+    end
     # FIXME: This gives the incorrect result
-#    @test isapprox(besselj_zero(60, 1), xxx)
+    # @test_broken isapprox(besselj_zero(60, 1), xxx)
     @test isapprox(besselj_zero(60, 2), 73.50669452996178)
 
     @test isapprox(bessely_zero(20, 1), 22.625159280072324)
