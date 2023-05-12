@@ -105,7 +105,11 @@ end
 end # let
 
 @testset "issue #2" begin
-    @test abs(besselj_zero(-60, 6) - 91.92959900770096) < 1e-14
+    if Int == Int64
+        @test abs(besselj_zero(-60, 6) - 91.92959900770096) < 1e-14
+    else
+        @test abs(besselj_zero(-60, 6) - 91.92959900770096) < 1e-13
+    end
 end
 
 # issue #10
