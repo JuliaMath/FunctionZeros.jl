@@ -1,8 +1,8 @@
 # FunctionZeros
 *Zeros of the Bessel J and Y functions*
 
-[![Build Status](https://github.com/JuliaMath/FunctionZeros.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/JuliaMath/FunctionZeros.jl/actions/workflows/CI.yml?query=branch%3Amaster)
-[![Coverage Status](https://coveralls.io/repos/github/JuliaMath/FunctionZeros.jl/badge.svg?branch=master)](https://coveralls.io/github/JuliaMath/FunctionZeros.jl?branch=master)
+[![Build Status](https://github.com/jlapeyre/FunctionZeros.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/jlapeyre/FunctionZeros.jl/actions/workflows/CI.yml?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/jlapeyre/FunctionZeros.jl/badge.svg?branch=master)](https://coveralls.io/github/jlapeyre/FunctionZeros.jl?branch=master)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl)
 
