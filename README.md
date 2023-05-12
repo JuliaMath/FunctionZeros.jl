@@ -1,12 +1,10 @@
 # FunctionZeros
 *Zeros of the Bessel J and Y functions*
 
-Linux, OSX: [![Build Status](https://travis-ci.org/jlapeyre/FunctionZeros.jl.svg)](https://travis-ci.org/jlapeyre/FunctionZeros.jl)
-&nbsp;
-Windows: [![Build Status](https://ci.appveyor.com/api/projects/status/github/jlapeyre/FunctionZeros.jl?branch=master&svg=true)](https://ci.appveyor.com/project/jlapeyre/functionzeros-jl)
-&nbsp; &nbsp; &nbsp;
-[![Coverage Status](https://coveralls.io/repos/jlapeyre/FunctionZeros.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/jlapeyre/FunctionZeros.jl?branch=master)
-[![codecov.io](http://codecov.io/github/jlapeyre/FunctionZeros.jl/coverage.svg?branch=master)](http://codecov.io/github/jlapeyre/FunctionZeros.jl?branch=master)
+[![Build Status](https://github.com/JuliaMath/FunctionZeros.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/JuliaMath/FunctionZeros.jl/actions/workflows/CI.yml?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/JuliaMath/FunctionZeros.jl/badge.svg?branch=master)](https://coveralls.io/github/JuliaMath/FunctionZeros.jl?branch=master)
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+[![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl)
 
 This module provides a function to compute the zeros of the Bessel J and K functions,
 that is Bessel functions of the first and second kind.
