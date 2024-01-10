@@ -49,7 +49,7 @@ for `n` = `1,2,...`.
 
 `order` is passed to the function `Roots.fzero`.
 """
-besselj_zero(nu, n; order=2) = Roots.fzero((x) -> SpecialFunctions.besselj(nu, x),
+besselj_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.besselj(nu, x),
                                            bessel_zero_asymptotic(nu, n, 1); order=order)
 
 """
@@ -60,7 +60,7 @@ for `n` = `1,2,...`.
 
 `order` is passed to the function `Roots.fzero`.
 """
-bessely_zero(nu, n; order=2) = Roots.fzero((x) -> SpecialFunctions.bessely(nu, x),
+bessely_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
                                            bessel_zero_asymptotic(nu, n, 2); order=order)
 
 end # module FunctionZeros

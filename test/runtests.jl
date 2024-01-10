@@ -1,9 +1,10 @@
 using FunctionZeros
 using Test
 
-if VERSION >= v"1.7"
-    include("jet_test.jl")
-end
+# JET internals changed, and we use them.
+# if VERSION >= v"1.7"
+#     include("jet_test.jl")
+# end
 
 include("aqua_test.jl")
 
