@@ -15,9 +15,11 @@ end
     Aqua.test_undefined_exports(PkgName)
 end
 
-# Depending on Optim causes many ambiguity errors outside our control
-@testset "aqua test ambiguities" begin
-    Aqua.test_ambiguities([PkgName, Core, Base])
+if VERSION >= v"1.1"
+    # Depending on Optim causes many ambiguity errors outside our control
+    @testset "aqua test ambiguities" begin
+        Aqua.test_ambiguities([PkgName, Core, Base])
+    end
 end
 
 @testset "aqua piracy" begin
