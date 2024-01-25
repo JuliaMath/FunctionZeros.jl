@@ -1,6 +1,8 @@
 using FunctionZeros
 using Test
 
+# I actually have fixed this in other packages.
+# Could do the same here
 # JET internals changed, and we use them.
 # if VERSION >= v"1.7"
 #     include("jet_test.jl")

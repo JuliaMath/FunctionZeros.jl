@@ -7,11 +7,6 @@ const PkgName = FunctionZeros
     Aqua.test_deps_compat(PkgName)
 end
 
-# This often gives false positive
-@testset "aqua project toml formatting" begin
-    Aqua.test_project_toml_formatting(PkgName)
-end
-
 @testset "aqua unbound_args" begin
     Aqua.test_unbound_args(PkgName)
 end
@@ -21,12 +16,12 @@ end
 end
 
 # Depending on Optim causes many ambiguity errors outside our control
-# @testset "aqua test ambiguities" begin
-#     Aqua.test_ambiguities([PkgName, Core, Base])
-# end
+@testset "aqua test ambiguities" begin
+    Aqua.test_ambiguities([PkgName, Core, Base])
+end
 
 @testset "aqua piracy" begin
-    Aqua.test_piracy(PkgName)
+    Aqua.test_piracies(PkgName)
 end
 
 @testset "aqua project extras" begin
