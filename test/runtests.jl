@@ -134,3 +134,7 @@ end
     end
     @test isapprox(bessely_zero(20, 1), 22.625159280072324)
 end
+
+@testset "asymptotic" begin
+    FunctionZeros.bessel_zero_asymptotic(4, 2, 1) == FunctionZeros.besselj_zero_asymptotic(4, 2)
+end

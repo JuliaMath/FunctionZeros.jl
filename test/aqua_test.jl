@@ -22,7 +22,7 @@ if VERSION >= v"1.1"
     end
 end
 
-@testset "aqua piracy" begin
+@testset "aqua piracies" begin
     Aqua.test_piracies(PkgName)
 end
 
