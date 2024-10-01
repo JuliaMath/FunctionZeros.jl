@@ -16,7 +16,7 @@ besselj_zero(nu, n)
 ```
 
 Return the `n`th zero of the the Bessel J function of order `nu`. The returned
-type has the same type as `nu`.
+value has the same type as `nu`.
 
 #### FunctionZeros.besselj_zero_asymptotic(nu, n)
 
@@ -34,7 +34,7 @@ bessely_zero(nu, n)
 ```
 
 Return the `n`th zero of the the Bessel Y function of order `nu`. The returned
-type has the same type as `nu`.
+value has the same type as `nu`.
 
 #### FunctionZeros.bessely_zero_asymptotic(nu, n)
 
