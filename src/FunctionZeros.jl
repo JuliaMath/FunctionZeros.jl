@@ -4,6 +4,10 @@ import Roots
 
 export besselj_zero, bessely_zero
 
+# Set max order and index of zeros to precompute
+const nupre_max = 1
+const npre_max = 500
+
 
 besselj_zero_asymptotic(nu, n) = bessel_zero_asymptotic(nu, n, 1)
 
@@ -42,25 +46,66 @@ end
 # Order 0 is 6 times slower and 50-100 times less accurate
 # than higher orders, with other parameters constant.
 """
-    besselj_zero(nu, n; order=2)
+    _besselj_zero(nu, n; order=2)
 
 `n`th zero of the Bessel J function of order `nu`,
-for `n` = `1,2,...`.
+for `n` = `1,2,...`. 
 
 `order` is passed to the function `Roots.fzero`.
 """
-besselj_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.besselj(nu, x),
+_besselj_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.besselj(nu, x),
                                            bessel_zero_asymptotic(nu, n, 1); order=order)
 
+
+const jzero_pre = [_besselj_zero(nu, n; order=2) for n in 1:npre_max, nu in 0:nupre_max]
+
 """
-    bessely_zero(nu, n; order=2)
+    besselj_zero(nu, n; order=2)
+
+`n`th zero of the Bessel J function of order `nu`,
+for `n` = `1,2,...`. 
+
+`order` is passed to the function `Roots.fzero` for roots not precomputed in the lookup table.
+
+For greater speed, table lookup is used when `nu ∈ 0:nupre_max` and `n ∈ 1:npremax`.
+"""
+function besselj_zero(nu, n; order=2)
+    if nu in 0:nupre_max && n in 1:npre_max
+        return jzero_pre[Int(n), Int(nu) + 1]
+    else
+        return _besselj_zero(nu, n; order)
+    end
+end
+
+"""
+    _bessely_zero(nu, n; order=2)
 
 `n`th zero of the Bessel Y function of order `nu`,
 for `n` = `1,2,...`.
 
 `order` is passed to the function `Roots.fzero`.
 """
-bessely_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
+_bessely_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
                                            bessel_zero_asymptotic(nu, n, 2); order=order)
+
+const yzero_pre = [_bessely_zero(nu, n; order=2) for n in 1:npre_max, nu in 0:nupre_max]
+
+"""
+    bessely_zero(nu, n; order=2)
+
+`n`th zero of the Bessel Y function of order `nu`,
+for `n` = `1,2,...`. 
+
+`order` is passed to the function `Roots.fzero` for roots not precomputed in the lookup table.
+
+For greater speed, table lookup is used when `nu ∈ 0:nupre_max` and `n ∈ 1:npremax`.
+"""
+function bessely_zero(nu, n; order=2)
+    if nu in 0:nupre_max && n in 1:npre_max
+        return yzero_pre[Int(n), Int(nu) + 1]
+    else
+        return _bessely_zero(nu, n; order)
+    end
+end
 
 end # module FunctionZeros
