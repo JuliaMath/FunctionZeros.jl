@@ -73,7 +73,7 @@ function besselj_zero(nu, n; order=2)
     if nu in 0:nupre_max && n in 1:npre_max
         return jzero_pre[Int(nu) + 1, Int(n)]
     else
-        return _besselj_zero(nu, n; order)
+        return _besselj_zero(nu, n; order=order)
     end
 end
 
@@ -88,10 +88,10 @@ for `n` = `1,2,...`.
 function _bessely_zero(nu, n; order=2)
     if isone(n) && abs(nu) < 0.1587 # See Issue 21
         return Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
-                                           0.5 * (nu + besselj_zero(nu, n)); order)
+                                           0.5 * (nu + besselj_zero(nu, n)); order=order)
     else
         return Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
-                                           bessel_zero_asymptotic(nu, n, 2); order)
+                                           bessel_zero_asymptotic(nu, n, 2); order=order)
     end
 end
 
@@ -112,7 +112,7 @@ function bessely_zero(nu, n; order=2)
     if nu in 0:nupre_max && n in 1:npre_max
         return yzero_pre[Int(nu) + 1, Int(n)]
     else
-        return _bessely_zero(nu, n; order)
+        return _bessely_zero(nu, n; order=order)
     end
 end
 
