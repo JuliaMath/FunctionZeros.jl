@@ -138,3 +138,18 @@ end
 @testset "asymptotic" begin
     FunctionZeros.bessel_zero_asymptotic(4, 2, 1) == FunctionZeros.besselj_zero_asymptotic(4, 2)
 end
+
+@testset "Issue 21" begin
+    @test bessely_zero(-0.1586, 1) ≈ 0.6559631635143002
+    @test bessely_zero(0, 1) ≈ 0.8935769662791675
+    @test bessely_zero(0.1586, 1) ≈ 1.117167411163268
+end
+
+@testset "precomputed" begin
+    for nu in 0:FunctionZeros.nupre_max
+        for n in union(1:27:FunctionZeros.npre_max, FunctionZeros.npre_max)
+            @test isapprox(besselj_zero(nu, n), FunctionZeros._besselj_zero(nu, n))
+            @test isapprox(bessely_zero(nu, n), FunctionZeros._bessely_zero(nu, n))
+        end
+    end
+end

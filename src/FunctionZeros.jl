@@ -4,7 +4,7 @@ import Roots
 
 export besselj_zero, bessely_zero
 
-# Set max order and index of zeros to precompute
+# Set max order and index of zeros to precompute and tabulate
 const nupre_max = 1
 const npre_max = 500
 
@@ -56,8 +56,8 @@ for `n` = `1,2,...`.
 _besselj_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.besselj(nu, x),
                                            bessel_zero_asymptotic(nu, n, 1); order=order)
 
-
-const jzero_pre = [_besselj_zero(nu, n; order=2) for n in 1:npre_max, nu in 0:nupre_max]
+# tabulation of selected besselj_zero values
+const jzero_pre = [_besselj_zero(nu, n; order=2) for nu in 0:nupre_max, n in 1:npre_max]
 
 """
     besselj_zero(nu, n; order=2)
@@ -71,7 +71,7 @@ For greater speed, table lookup is used when `nu ∈ 0:nupre_max` and `n ∈ 1:n
 """
 function besselj_zero(nu, n; order=2)
     if nu in 0:nupre_max && n in 1:npre_max
-        return jzero_pre[Int(n), Int(nu) + 1]
+        return jzero_pre[Int(nu) + 1, Int(n)]
     else
         return _besselj_zero(nu, n; order)
     end
@@ -85,10 +85,18 @@ for `n` = `1,2,...`.
 
 `order` is passed to the function `Roots.fzero`.
 """
-_bessely_zero(nu, n; order=2) = Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
-                                           bessel_zero_asymptotic(nu, n, 2); order=order)
+function _bessely_zero(nu, n; order=2)
+    if isone(n) && abs(nu) < 0.1587 # See Issue 21
+        return Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
+                                           0.5 * (nu + besselj_zero(nu, n)); order)
+    else
+        return Roots.find_zero((x) -> SpecialFunctions.bessely(nu, x),
+                                           bessel_zero_asymptotic(nu, n, 2); order)
+    end
+end
 
-const yzero_pre = [_bessely_zero(nu, n; order=2) for n in 1:npre_max, nu in 0:nupre_max]
+# tabulation of selected bessely_zero values
+const yzero_pre = [_bessely_zero(nu, n; order=2) for nu in 0:nupre_max, n in 1:npre_max]
 
 """
     bessely_zero(nu, n; order=2)
@@ -102,7 +110,7 @@ For greater speed, table lookup is used when `nu ∈ 0:nupre_max` and `n ∈ 1:n
 """
 function bessely_zero(nu, n; order=2)
     if nu in 0:nupre_max && n in 1:npre_max
-        return yzero_pre[Int(n), Int(nu) + 1]
+        return yzero_pre[Int(nu) + 1, Int(n)]
     else
         return _bessely_zero(nu, n; order)
     end
