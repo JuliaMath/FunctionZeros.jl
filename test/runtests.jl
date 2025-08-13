@@ -1,5 +1,6 @@
 using FunctionZeros
 using Test
+using SpecialFunctions: besselj, bessely
 
 # I actually have fixed this in other packages.
 # Could do the same here
@@ -137,4 +138,243 @@ end
 
 @testset "asymptotic" begin
     FunctionZeros.bessel_zero_asymptotic(4, 2, 1) == FunctionZeros.besselj_zero_asymptotic(4, 2)
+    FunctionZeros.bessel_zero_asymptotic(4, 2, 2) == FunctionZeros.bessely_zero_asymptotic(4, 2)
+    FunctionZeros.bessel_deriv_zero_asymptotic(4, 2, 1) == FunctionZeros.besselj_deriv_zero_asymptotic(4, 2)
+    FunctionZeros.bessel_deriv_zero_asymptotic(4, 2, 2) == FunctionZeros.bessely_deriv_zero_asymptotic(4, 2)
 end
+
+@testset "Issue 21" begin
+    @test bessely_zero(-0.1586, 1) ≈ 0.6559631635143002
+    @test bessely_zero(0, 1) ≈ 0.8935769662791675
+    @test bessely_zero(0.1586, 1) ≈ 1.117167411163268
+end
+
+@testset "precomputed" begin
+    for nu in 0:FunctionZeros.nupre_max
+        for n in union(1:27:FunctionZeros.npre_max, FunctionZeros.npre_max)
+            @test isapprox(besselj_zero(nu, n), FunctionZeros._besselj_zero(nu, n))
+            @test isapprox(bessely_zero(nu, n), FunctionZeros._bessely_zero(nu, n))
+            @test isapprox(besselj_deriv_zero(nu, n), FunctionZeros._besselj_deriv_zero(nu, n))
+            @test isapprox(bessely_deriv_zero(nu, n), FunctionZeros._bessely_deriv_zero(nu, n))
+        end
+    end
+end
+
+let zps = Array{Array{Float64,1}}(undef, 0)
+
+    push!(zps,
+          [3.8317059702075125,
+           7.015586669815619,
+           10.173468135062722,
+           13.323691936314223,
+           16.470630050877634,
+           19.615858510468243,
+           22.760084380592772,
+           25.903672087618382,
+           29.046828534916855,
+           32.189679910974405,
+           35.33230755008387,
+           38.47476623477174,
+           41.617094212814514,
+           44.75931899765285,
+           47.901460887185465])
+
+    push!(zps,
+          [1.8411837813406595,
+           5.3314427735250325,
+           8.536316366346286,
+           11.706004902592063,
+           14.863588633909034,
+           18.015527862681804,
+           21.16436985918879,
+           24.311326857210776,
+           27.457050571059245,
+           30.601922972669094,
+           33.746182898667385,
+           36.889987409236745,
+           40.03344405335064,
+           43.176628965448806,
+           46.3195975611739])
+
+    push!(zps,
+          [3.0542369282271404,
+           6.706133194158459,
+           9.969467823087596,
+           13.170370856016124,
+           16.347522318321783,
+           19.512912782488204,
+           22.671581772477424,
+           25.826037141785264,
+           28.977672772993678,
+           32.127327020443474,
+           35.27553505067469,
+           38.42265481755591,
+           41.568934936074314,
+           44.714553532819735,
+           47.859641607992096])
+
+    push!(zps,
+          [4.201188941210528,
+           8.015236598375953,
+           11.345924310743007,
+           14.585848286167028,
+           17.78874786606647,
+           20.9724769365377,
+           24.144897432909264,
+           27.310057930204348,
+           30.470268806290424,
+           33.62694918279668,
+           36.78102067546438,
+           39.933108623659486,
+           43.08365266237508,
+           46.23297108183648,
+           49.38130009237035])
+
+    push!(zps,
+          [5.317553126083994,
+           9.282396285241612,
+           12.68190844263889,
+           15.964107037731551,
+           19.196028800048904,
+           22.401032267689004,
+           25.589759681386735,
+           28.767836217666503,
+           31.938539340972785,
+           35.10391667734677,
+           38.265316987088156,
+           41.42366649850073,
+           44.579623137359256,
+           47.73366752386574,
+           50.88615915318268])
+
+@testset "test many jderiv zeros" begin
+    for nu in 1:5
+        for n in 1:15
+            @test isapprox(besselj_deriv_zero(nu-1,n), zps[nu][n])
+        end
+    end
+end
+end # let
+
+
+let zps = Array{Array{Float64,1}}(undef, 0)
+
+    push!(zps,
+          [2.197141326031017,
+           5.429681040794135,
+           8.596005868331169,
+           11.749154830839881,
+           14.897442128336726,
+           18.043402276727857,
+           21.188068934142212,
+           24.33194257135691,
+           27.475294980449224,
+           30.618286491641115,
+           33.76101779610933,
+           36.90355531614295,
+           40.04594464026697,
+           43.18821809739326,
+           46.33039925070171])
+
+    push!(zps,
+          [3.6830228565851773,
+           6.9414999536541755,
+           10.123404655436612,
+           13.285758156782855,
+           16.44005800729328,
+           19.590241756629496,
+           22.738034717396328,
+           25.884314618788867,
+           29.029575819372536,
+           32.1741182333662,
+           35.318134458192,
+           38.4617538709975,
+           41.60506661887308,
+           44.74813744908077,
+           47.89101407079106])
+
+    push!(zps,
+          [5.002582931446064,
+           8.35072470141308,
+           11.574195465217647,
+           14.760909306207676,
+           17.931285939466857,
+           21.09289450441274,
+           24.249231678519056,
+           27.40214583714526,
+           30.552708880564552,
+           33.70158627151572,
+           36.84921341984626,
+           39.99588737614336,
+           43.141817835750686,
+           46.2871570975442,
+           49.43201846913828])
+
+    push!(zps,
+          [6.253633208459814,
+           9.69878798414877,
+           12.972409052292216,
+           16.19044719506921,
+           19.38238844973613,
+           22.55979185776426,
+           25.728213194724095,
+           28.890678419054776,
+           32.048984005266334,
+           35.20426660644063,
+           38.35728167596102,
+           41.50855144381843,
+           44.658448731963674,
+           47.80724695668116,
+           50.95515126455207])
+
+    push!(zps,
+          [7.464921736757133,
+           11.005169149809188,
+           14.3317235192331,
+           17.58443601710272,
+           20.80106233841113,
+           23.997004122902645,
+           27.179886689853436,
+           30.353960608554324,
+           33.521797098666795,
+           36.6850483820723,
+           39.844826969405865,
+           43.00191051562529,
+           46.15685955107263,
+           49.31008861428226,
+           52.461911043685866])
+
+@testset "test many yderiv zeros" begin
+    for nu in 1:5
+        for n in 1:15
+            @test isapprox(bessely_deriv_zero(nu-1,n), zps[nu][n])
+        end
+    end
+end
+end # let
+
+let nu = min(FunctionZeros.nupre_max, 1)
+@testset "big" begin
+    # Ensure that Float64 lookup table not used inapproprately 
+
+    z = besselj_zero(nu, 1) # Float64 lookup
+    zbig = besselj_zero(BigInt(nu), 1) # BigFloat
+    @test abs(z - zbig) < 5 * eps()
+    @test abs(besselj(nu, zbig)) < 2 * eps(BigFloat)
+
+    z = bessely_zero(nu, 1) # Float64 lookup
+    zbig = bessely_zero(BigInt(nu), 1) # BigFloat
+    @test abs(z - zbig) < 5 * eps()
+    @test abs(bessely(nu, zbig)) < 2 * eps(BigFloat)
+
+    z = besselj_deriv_zero(nu, 1) # Float64 lookup
+    zbig = besselj_deriv_zero(BigInt(nu), 1) # BigFloat
+    @test abs(z - zbig) < 5 * eps()
+    @test abs(besselj(nu-1, zbig) - besselj(nu+1, zbig)) / 2 < 2 * eps(BigFloat)
+
+    z = bessely_deriv_zero(nu, 1) # Float64 lookup
+    zbig = bessely_deriv_zero(BigInt(nu), 1) # BigFloat
+    @test abs(z - zbig) < 5 * eps()
+    @test abs(bessely(nu-1, zbig) - bessely(nu+1, zbig)) / 2 < 2 * eps(BigFloat)
+end
+end # let
