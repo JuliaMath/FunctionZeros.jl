@@ -2,7 +2,7 @@
 """
     FunctionZeros
 This module provides functions to compute the zeros of the J and Y functions,
-and the zeros of their derivatives, where J and Y are Bessel functions of the first and second kind, respectively. 
+and the zeros of their derivatives, where J and Y are Bessel functions of the first and second kind, respectively.
 """
 module FunctionZeros
 import SpecialFunctions
@@ -15,7 +15,7 @@ const nupre_max = 1
 const npre_max = 500
 
 # Strings used in multiple function docstrings:
-const speeddocstr = """For greater speed, table lookup is used for `Float64` outputs when 
+const speeddocstr = """For greater speed, table lookup is used for `Float64` outputs when
                        `nu ∈ 0:$nupre_max` and `n ∈ 1:$(npre_max)`."""
 const argstr = """## Arguments
                   - `nu::Real`: The order of the Bessel function.
@@ -84,7 +84,7 @@ end
     _besselj_zero(nu, n)
 
 `n`th zero of the Bessel J function of order `nu`,
-for `n` = `1,2,...`. 
+for `n` = `1,2,...`.
 
 $argstr
 """
@@ -101,7 +101,7 @@ const jzero_pre = [_besselj_zero(nu, n) for nu in 0:nupre_max, n in 1:npre_max]
     besselj_zero(nu, n)
 
 Return the `n`th zero of the Bessel J function of order `nu`,
-for `n` = `1,2,...`. 
+for `n` = `1,2,...`.
 
 $argstr
 $speeddocstr
@@ -146,7 +146,7 @@ const yzero_pre = [_bessely_zero(nu, n) for nu in 0:nupre_max, n in 1:npre_max]
     bessely_zero(nu, n)
 
 Return the `n`th zero of the Bessel Y function of order `nu`,
-for `n` = `1,2,...`. 
+for `n` = `1,2,...`.
 
 $argstr
 $speeddocstr
@@ -185,7 +185,7 @@ bessely_deriv_zero_asymptotic(nu, n) = bessel_deriv_zero_asymptotic(nu, n, 2)
 """
     bessel_deriv_zero_asymptotic(nu, n, kind=1)
 
-Asymptotic formula for the `n`th zero of the the derivative of Bessel J (Y) function 
+Asymptotic formula for the `n`th zero of the the derivative of Bessel J (Y) function
 of order `nu`. `kind == 1 (2)` for Bessel function of the first (second) kind, J (Y).
 """
 function bessel_deriv_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
@@ -218,11 +218,11 @@ end
     _besselj_deriv_zero(nu, n)
 
 Return the `n`th nonvanishing zero of the derivative of Bessel J function of order `nu`,
-for `n` = `1,2,...`. 
+for `n` = `1,2,...`.
 
 $argstr
 """
-function _besselj_deriv_zero(nu::Real, n::Integer) 
+function _besselj_deriv_zero(nu::Real, n::Integer)
     # Ref: https://dlmf.nist.gov/10.6.E1
     iszero(nu) && (n += 1) # Skip the zero occuring at zero
     return Roots.find_zero(bessel_deriv_zero_asymptotic(nu, n, 1)) do x
@@ -237,7 +237,7 @@ const jderivzero_pre = [_besselj_deriv_zero(nu, n) for nu in 0:nupre_max, n in 1
     besselj_deriv_zero(nu, n)
 
 Return the `n`th nonvanishing zero of the derivative of the Bessel J function of order `nu`,
-for `n` = `1,2,...`. 
+for `n` = `1,2,...`.
 
 $argstr
 $speeddocstr
@@ -276,7 +276,7 @@ const yderivzero_pre = [_bessely_deriv_zero(nu, n) for nu in 0:nupre_max, n in 1
     bessely_deriv_zero(nu, n)
 
 Return the `n`th zero of the derivative of the Bessel Y function of order `nu`,
-for `n` = `1,2,...`. 
+for `n` = `1,2,...`.
 
 $argstr
 $speeddocstr
