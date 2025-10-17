@@ -1,4 +1,6 @@
 using FunctionZeros
+using FunctionZeros: bessel_zero_asymptotic, bessel_deriv_zero_asymptotic
+
 using Test
 using SpecialFunctions: besselj, bessely
 
@@ -377,4 +379,14 @@ let nu = min(FunctionZeros.nupre_max, 1)
     @test abs(z - zbig) < 5 * eps()
     @test abs(bessely(nu-1, zbig) - bessely(nu+1, zbig)) / 2 < 2 * eps(BigFloat)
 end
+
+@testset "Issue 27" begin
+ @test besselj_deriv_zero(37, 1) ≈ besselj_deriv_zero(37.0, 1) ≈ 39.71488992674072
+ @test bessel_deriv_zero_asymptotic(37, 2, 1) ≈ 47.22868085729076
+ @test bessel_deriv_zero_asymptotic(BigInt(37), 2, 1) ≈ big"47.22868085729076149030198319523818371811907166937005677029525603864958297422779"
+ @test bessel_zero_asymptotic(87, 2, 1) ≈ 105.69324719238529
+ @test bessel_zero_asymptotic(BigInt(87), 2, 1) ≈ big"105.693247192385300157734443161801368795079219923515831608871687185822839565836"
+end
+
+
 end # let

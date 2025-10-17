@@ -76,6 +76,8 @@ function bessel_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     return zero_asymp
 end
 
+bessel_zero_asymptotic(nu::Integer, n::Integer, kind=1) = bessel_zero_asymptotic(float(nu), n, kind) # fix #27
+
 # Use the asymptotic values as starting values.
 # These find the correct zeros even for n = 1,2,...
 # Order 0 is 6 times slower and 50-100 times less accurate
@@ -213,6 +215,8 @@ function bessel_deriv_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     zero_asymp = beta - (t1 + t2 + t3 + t4)
     return zero_asymp
 end
+
+bessel_deriv_zero_asymptotic(nu::Integer, n::Integer, kind=1) = bessel_deriv_zero_asymptotic(float(nu), n, kind) # fix #27
 
 """
     _besselj_deriv_zero(nu, n)
