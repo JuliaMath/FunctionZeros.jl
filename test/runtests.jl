@@ -1,4 +1,6 @@
 using FunctionZeros
+using FunctionZeros: bessel_zero_asymptotic, bessel_deriv_zero_asymptotic
+
 using Test
 using SpecialFunctions: besselj, bessely
 
@@ -120,19 +122,9 @@ end
 @testset "high nu" begin
     @test isapprox(besselj_zero(6, 1), 9.936109524217688)
     @test isapprox(besselj_zero(7, 2), 14.821268727013171)
-
-    if Int == Int64
-        @test isapprox(besselj_zero(50, 1), 57.116899160119196)
-    else
-        @test_broken isapprox(besselj_zero(50, 1), 57.116899160119196)
-    end
-    # FIXME: This gives the incorrect result
-    # @test_broken isapprox(besselj_zero(60, 1), xxx)
-    if Int == Int64
-        @test isapprox(besselj_zero(60, 2), 73.50669452996178)
-    else
-        @test_broken isapprox(besselj_zero(60, 2), 73.50669452996178)
-    end
+    @test isapprox(besselj_zero(50, 1), 57.116899160119196)
+    @test isapprox(besselj_zero(60, 1), 73.5066945299618)
+    @test isapprox(besselj_zero(60, 2), 73.50669452996178)
     @test isapprox(bessely_zero(20, 1), 22.625159280072324)
 end
 
@@ -377,4 +369,14 @@ let nu = min(FunctionZeros.nupre_max, 1)
     @test abs(z - zbig) < 5 * eps()
     @test abs(bessely(nu-1, zbig) - bessely(nu+1, zbig)) / 2 < 2 * eps(BigFloat)
 end
+
+@testset "Issue 27" begin
+ @test besselj_deriv_zero(37, 1) ≈ besselj_deriv_zero(37.0, 1) ≈ 39.71488992674072
+ @test bessel_deriv_zero_asymptotic(37, 2, 1) ≈ 47.22868085729076
+ @test bessel_deriv_zero_asymptotic(BigInt(37), 2, 1) ≈ big"47.22868085729076149030198319523818371811907166937005677029525603864958297422779"
+ @test bessel_zero_asymptotic(87, 2, 1) ≈ 105.69324719238529
+ @test bessel_zero_asymptotic(BigInt(87), 2, 1) ≈ big"105.693247192385300157734443161801368795079219923515831608871687185822839565836"
+end
+
+
 end # let
