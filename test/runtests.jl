@@ -123,9 +123,47 @@ end
     @test isapprox(besselj_zero(6, 1), 9.936109524217688)
     @test isapprox(besselj_zero(7, 2), 14.821268727013171)
     @test isapprox(besselj_zero(50, 1), 57.116899160119196)
-    @test isapprox(besselj_zero(60, 1), 73.5066945299618)
+    @test isapprox(besselj_zero(60, 1), 67.52878576502944)
     @test isapprox(besselj_zero(60, 2), 73.50669452996178)
     @test isapprox(bessely_zero(20, 1), 22.625159280072324)
+end
+
+@testset "higher nu" begin
+    nu = 93
+    zs = (101.63574127054777, 108.39596476159262, 114.11931644545753, 119.31845259184884, 124.18623309985139, 128.82065510579764)
+    for n in eachindex(zs)
+        @test isapprox(besselj_zero(nu, n), zs[n])
+    end
+    zs = (97.27824281868035, 105.20857143856234, 111.34228417034764, 116.76901331276218, 121.78633625489611, 126.5283633227293)
+    for n in eachindex(zs)
+        @test isapprox(bessely_zero(nu, n), zs[n])
+    end
+    zs = (96.67901927598446, 105.11090346045167, 111.2934441467005, 116.73708027868332, 121.76274824610373, 126.50968709216339)
+    for n in eachindex(zs)
+        @test isapprox(besselj_deriv_zero(nu, n), zs[n])
+    end
+    zs = (101.4575922200051, 108.33036194055933, 114.08063131302099, 119.29130692486132, 124.16538547400332, 128.8037392041164)
+    for n in eachindex(zs)
+        @test isapprox(bessely_deriv_zero(nu, n), zs[n])
+    end
+
+    nu = 3000.5
+    zs = (3027.337764568362, 3047.5168782184123, 3064.097399434406)
+    for n in eachindex(zs)
+        @test isapprox(besselj_zero(nu, n), zs[n])
+    end
+    zs = (3013.9544634926597, 3038.086941162325, 3056.1069360002584)
+    for n in eachindex(zs)
+        @test isapprox(bessely_zero(nu, n), zs[n])
+    end
+    zs = (3012.1679250547336, 3037.8201731857043, 3055.981972098408)
+    for n in eachindex(zs)
+        @test isapprox(besselj_deriv_zero(nu, n), zs[n])
+    end
+    zs = (3026.831390317444, 3047.3437713977214, 3064.0011561225597)
+    for n in eachindex(zs)
+        @test isapprox(bessely_deriv_zero(nu, n), zs[n])
+    end
 end
 
 @testset "asymptotic" begin
@@ -372,10 +410,10 @@ end
 
 @testset "Issue 27" begin
  @test besselj_deriv_zero(37, 1) ≈ besselj_deriv_zero(37.0, 1) ≈ 39.71488992674072
- @test bessel_deriv_zero_asymptotic(37, 2, 1) ≈ 47.22868085729076
- @test bessel_deriv_zero_asymptotic(BigInt(37), 2, 1) ≈ big"47.22868085729076149030198319523818371811907166937005677029525603864958297422779"
- @test bessel_zero_asymptotic(87, 2, 1) ≈ 105.69324719238529
- @test bessel_zero_asymptotic(BigInt(87), 2, 1) ≈ big"105.693247192385300157734443161801368795079219923515831608871687185822839565836"
+ @test bessel_deriv_zero_asymptotic(37, 2, 1) ≈ 46.17514728525214
+ @test bessel_deriv_zero_asymptotic(BigInt(37), 2, 1) ≈ big"46.17514728525213690979739144407799904081911499170621436441096165051529368770411"
+ @test bessel_zero_asymptotic(87, 2, 1) ≈ 102.08833844612316
+ @test bessel_zero_asymptotic(BigInt(87), 2, 1) ≈ big"102.0883384461231427738288799405520802571778132437833489160205247116488836660219"
 end
 
 
