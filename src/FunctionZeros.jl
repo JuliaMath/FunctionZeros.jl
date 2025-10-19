@@ -320,7 +320,8 @@ Return the first few negative zeros of the functions `airyai`, `airybi`, `airyai
     bi = (-1.173713222709127, -3.2710933028363516, -4.8307378416620095)
     aiprime = (-1.0187929716474717, -3.248197582179841, -4.820099211178737)
     biprime = (-2.2944396826141227, -4.073155089071816, -5.5123957296635835)
-    return (; ai, bi, aiprime, biprime)
+    #return (; ai, bi, aiprime, biprime) # Not compatible with Julia 1.0
+    return (ai=ai, bi=bi, aiprime=aiprime, biprime=biprime) # Compatible with Julia 1.0
 end
 
 """
