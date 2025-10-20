@@ -313,13 +313,21 @@ Return the first few negative zeros of the functions `airyai`, `airybi`, `airyai
 - `(; ai, bi, aiprime, biprime)`: A named tuple containing the first few negative zeros of the functions
   `airyai`, `airybi`, `airyaiprime`, and `airybiprime`, respectively, as defined in the `SpecialFunctions`
    package. Each field in the named tuple consists of a tuple of `n` increasingly negative values. Here `n`
-   is a small integer, say 2 or 3. 
+   is a small integer, currently 10. 
 """
 @inline function airy_zeros()
-    ai = (-2.338107410459767, -4.087949444130973, -5.520559828095556)
-    bi = (-1.173713222709127, -3.2710933028363516, -4.8307378416620095)
-    aiprime = (-1.0187929716474717, -3.248197582179841, -4.820099211178737)
-    biprime = (-2.2944396826141227, -4.073155089071816, -5.5123957296635835)
+    ai = (-2.338107410459767, -4.087949444130973, -5.520559828095556, -6.7867080900717625, 
+          -7.94413358712085, -9.02265085334098, -10.040174341558084, -11.008524303733264,
+          -11.936015563236262, -12.828776752865759)
+    bi = (-1.173713222709127, -3.2710933028363516, -4.8307378416620095, -6.169852128310234,
+          -7.3767620793677535, -8.491948846509374, -9.538194379346248, -10.529913506705357,
+          -11.47695355127878, -12.38641713858274)
+    aiprime = (-1.0187929716474717, -3.248197582179841, -4.820099211178737, -6.163307355639495,
+               -7.372177255047777, -8.488486734019723, -9.535449052433547, -10.527660396957408,
+               -11.475056633480246, -12.384788371845747)
+    biprime = (-2.2944396826141227, -4.073155089071816, -5.5123957296635835, -6.781294445990291,
+               -7.940178689168584, -9.019583358794248, -10.037696334908555, -11.00646266771229,
+               -11.934261645014844, -12.82725830917722)
     #return (; ai, bi, aiprime, biprime) # Not compatible with Julia 1.0
     return (ai=ai, bi=bi, aiprime=aiprime, biprime=biprime) # Compatible with Julia 1.0
 end

@@ -21,9 +21,10 @@ of the first values of `1, 2, 3, ...`.  See the individual function docstrings f
 extents of the lookup tables.
 
 ### Limitations
-The first three zeros (`n` ∈ {1,2,3}) of any of the four functions treated here are always found
-correctly for any choice of `nu`.  Similarly, when `nu ≤ 93`, any choice for `n` will produce a 
-correct result. However, for `nu > 93` and `n > 3` some of the zeros may be skipped or found in the wrong order. 
+The first ten zeros of any of the four functions treated here are always found
+correctly for any choice of `nu`.  For `nu ≤ 150`, any choice for `n` will produce a 
+correct result. However, for `nu > 150` and `n > 10` the results should not be trusted as some of the 
+zeros immediately following the tenth may be skipped.
 
 ### Exported Functions
 
