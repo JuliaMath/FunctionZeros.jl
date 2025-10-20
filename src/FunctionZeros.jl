@@ -54,7 +54,7 @@ Asymptotic formula for the `n`th zero of the the Bessel J (Y) function of order 
 """
 function bessel_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     nu = abs(nu_in)
-    if nu > 25 && n ≤ length(airy_zeros().ai)
+    if (nu ≥ 33 && n ≤ 10) || (nu ≥ 30 && n ≤ 9) || (nu ≥ 26 && n ≤ 8) || (nu ≥ 25 && n ≤ 7)
         return bessel_zero_largenu_asymptotic(nu, n, kind, false)
     end
     if kind == 1
@@ -195,7 +195,7 @@ of order `nu`. `kind == 1 (2)` for Bessel function of the first (second) kind, J
 """
 function bessel_deriv_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     nu = abs(nu_in)
-    if nu > 25 && n ≤ length(airy_zeros().ai)
+    if (nu ≥ 33 && n ≤ 10) || (nu ≥ 30 && n ≤ 9) || (nu ≥ 26 && n ≤ 8) || (nu ≥ 25 && n ≤ 7)
         return bessel_zero_largenu_asymptotic(nu, n, kind, true)
     end
 
