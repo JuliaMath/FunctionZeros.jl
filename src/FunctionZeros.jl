@@ -54,7 +54,7 @@ Asymptotic formula for the `n`th zero of the the Bessel J (Y) function of order 
 """
 function bessel_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     nu = abs(nu_in)
-    if (nu ≥ 33 && n ≤ 10) || (nu ≥ 30 && n ≤ 9) || (nu ≥ 26 && n ≤ 8) || (nu ≥ 25 && n ≤ 7)
+    if (nu ≥ 25) && (nu ≥ 3.25 * n)
         return bessel_zero_largenu_asymptotic(nu, n, kind, false)
     end
     if kind == 1
@@ -195,7 +195,7 @@ of order `nu`. `kind == 1 (2)` for Bessel function of the first (second) kind, J
 """
 function bessel_deriv_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     nu = abs(nu_in)
-    if (nu ≥ 33 && n ≤ 10) || (nu ≥ 30 && n ≤ 9) || (nu ≥ 26 && n ≤ 8) || (nu ≥ 25 && n ≤ 7)
+    if (nu ≥ 25) && (nu ≥ 3.25 * n)
         return bessel_zero_largenu_asymptotic(nu, n, kind, true)
     end
 
@@ -313,10 +313,10 @@ Return the first few negative zeros of the functions `airyai`, `airybi`, `airyai
 - `(; ai, bi, aiprime, biprime)`: A named tuple containing the first few negative zeros of the functions
   `airyai`, `airybi`, `airyaiprime`, and `airybiprime`, respectively, as defined in the `SpecialFunctions`
    package. Each field in the named tuple consists of a tuple of `n` increasingly negative values. Here `n`
-   is a small integer, currently 10. 
+   is a small integer, currently 10.
 """
 @inline function airy_zeros()
-    ai = (-2.338107410459767, -4.087949444130973, -5.520559828095556, -6.7867080900717625, 
+    ai = (-2.338107410459767, -4.087949444130973, -5.520559828095556, -6.7867080900717625,
           -7.94413358712085, -9.02265085334098, -10.040174341558084, -11.008524303733264,
           -11.936015563236262, -12.828776752865759)
     bi = (-1.173713222709127, -3.2710933028363516, -4.8307378416620095, -6.169852128310234,
@@ -348,7 +348,7 @@ Compute an asymptotic approximation for a zero of the J or Y Bessel function (or
 `z`: A `Float64` approximation of the desired zero.
 
 ## Reference
-- https://dlmf.nist.gov/10.21.vii       
+- https://dlmf.nist.gov/10.21.vii
 """
 function bessel_zero_largenu_asymptotic(nu::Real, m::Integer, kind::Integer, deriv::Bool)
     abfactor = inv(cbrt(2.0))
