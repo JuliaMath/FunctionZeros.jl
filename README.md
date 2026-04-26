@@ -22,8 +22,8 @@ extents of the lookup tables.
 
 ### Limitations
 The first ten zeros of any of the four functions treated here are always found
-correctly for any choice of `nu`.  For `nu ≤ 150`, any choice for `n` will produce a 
-correct result. However, for `nu > 150` and `n > 10` the results should not be trusted as some of the 
+correctly for any choice of `nu`.  For `nu ≤ 150`, any choice for `n` will produce a
+correct result. However, for `nu > 150` and `n > 10` the results should not be trusted as some of the
 zeros immediately following the tenth may be skipped.
 
 ### Exported Functions
