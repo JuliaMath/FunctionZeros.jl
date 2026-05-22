@@ -20,6 +20,12 @@ zeros if the order `nu` is one of the first few values of `0, 1, ...` and the en
 of the first values of `1, 2, 3, ...`.  See the individual function docstrings for the actual
 extents of the lookup tables.
 
+### Limitations
+The first ten zeros of any of the four functions treated here are always found
+correctly for any choice of `nu`.  For `nu ≤ 150`, any choice for `n` will produce a
+correct result. However, for `nu > 150` and `n > 10` the results should not be trusted as some of the
+zeros immediately following the tenth may be skipped.
+
 ### Exported Functions
 
 #### besselj_zero(nu, n)

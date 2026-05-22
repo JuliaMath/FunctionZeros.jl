@@ -54,6 +54,9 @@ Asymptotic formula for the `n`th zero of the the Bessel J (Y) function of order 
 """
 function bessel_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     nu = abs(nu_in)
+    if (nu ≥ 25) && (nu ≥ 3.25 * n)
+        return bessel_zero_largenu_asymptotic(nu, n, kind, false)
+    end
     if kind == 1
         beta = MathConstants.pi * (n + nu / 2 - 1//4)
     else # kind == 2
@@ -75,6 +78,8 @@ function bessel_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     zero_asymp = beta - ((mu - 1) / delta) * (t1 + t2 + t3 + t4)
     return zero_asymp
 end
+
+bessel_zero_asymptotic(nu::Integer, n::Integer, kind=1) = bessel_zero_asymptotic(float(nu), n, kind) # fix #27
 
 # Use the asymptotic values as starting values.
 # These find the correct zeros even for n = 1,2,...
@@ -189,8 +194,12 @@ Asymptotic formula for the `n`th zero of the the derivative of Bessel J (Y) func
 of order `nu`. `kind == 1 (2)` for Bessel function of the first (second) kind, J (Y).
 """
 function bessel_deriv_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
-    # Reference: https://dlmf.nist.gov/10.21.E20
     nu = abs(nu_in)
+    if (nu ≥ 25) && (nu ≥ 3.25 * n)
+        return bessel_zero_largenu_asymptotic(nu, n, kind, true)
+    end
+
+    # Reference: https://dlmf.nist.gov/10.21.E20
     if kind == 1
         beta = MathConstants.pi * (n + nu / 2 - 3//4)
     else # kind == 2
@@ -213,6 +222,8 @@ function bessel_deriv_zero_asymptotic(nu_in::Real, n::Integer, kind=1)
     zero_asymp = beta - (t1 + t2 + t3 + t4)
     return zero_asymp
 end
+
+bessel_deriv_zero_asymptotic(nu::Integer, n::Integer, kind=1) = bessel_deriv_zero_asymptotic(float(nu), n, kind) # fix #27
 
 """
     _besselj_deriv_zero(nu, n)
@@ -291,6 +302,98 @@ function bessely_deriv_zero(nu::Union{Integer,Float64}, n::Integer)
     else
         return _bessely_deriv_zero(nu, n)
     end
+end
+
+"""
+    airy_zeros()
+
+Return the first few negative zeros of the functions `airyai`, `airybi`, `airyaiprime`, and `airybiprime`
+
+## Return Value
+- `(; ai, bi, aiprime, biprime)`: A named tuple containing the first few negative zeros of the functions
+  `airyai`, `airybi`, `airyaiprime`, and `airybiprime`, respectively, as defined in the `SpecialFunctions`
+   package. Each field in the named tuple consists of a tuple of `n` increasingly negative values. Here `n`
+   is a small integer, currently 10.
+"""
+@inline function airy_zeros()
+    ai = (-2.338107410459767, -4.087949444130973, -5.520559828095556, -6.7867080900717625,
+          -7.94413358712085, -9.02265085334098, -10.040174341558084, -11.008524303733264,
+          -11.936015563236262, -12.828776752865759)
+    bi = (-1.173713222709127, -3.2710933028363516, -4.8307378416620095, -6.169852128310234,
+          -7.3767620793677535, -8.491948846509374, -9.538194379346248, -10.529913506705357,
+          -11.47695355127878, -12.38641713858274)
+    aiprime = (-1.0187929716474717, -3.248197582179841, -4.820099211178737, -6.163307355639495,
+               -7.372177255047777, -8.488486734019723, -9.535449052433547, -10.527660396957408,
+               -11.475056633480246, -12.384788371845747)
+    biprime = (-2.2944396826141227, -4.073155089071816, -5.5123957296635835, -6.781294445990291,
+               -7.940178689168584, -9.019583358794248, -10.037696334908555, -11.00646266771229,
+               -11.934261645014844, -12.82725830917722)
+    #return (; ai, bi, aiprime, biprime) # Not compatible with Julia 1.0
+    return (ai=ai, bi=bi, aiprime=aiprime, biprime=biprime) # Compatible with Julia 1.0
+end
+
+"""
+    bessel_zero_largenu_asymptotic(nu::Real, m::Integer, kind::Integer, deriv::Bool)
+
+Compute an asymptotic approximation for a zero of the J or Y Bessel function (or their derivative) suitable for large order.
+
+## Input Arguments
+- `nu`: The (nonnegative) order of the Bessel function.
+- `m`: A small positive integer enumerating which zero is sought. Can not exceed `length(airy_zeros().ai)`.
+  The asymptotic formulas used herein weaken as `m` increases.
+- `kind`: Kind of Bessel function whose zero is sought. Either 1 for the J Bessel function or 2 for the Y Bessel function.
+- `deriv`: If false, returns the zero of the function.  If true, returns the zero of the function's derivative.
+
+## Return Value
+`z`: A `Float64` approximation of the desired zero.
+
+## Reference
+- https://dlmf.nist.gov/10.21.vii
+"""
+function bessel_zero_largenu_asymptotic(nu::Real, m::Integer, kind::Integer, deriv::Bool)
+    abfactor = inv(cbrt(2.0))
+
+    if kind == 1
+        alpha = -abfactor * (deriv ? airy_zeros().aiprime[m] : airy_zeros().ai[m])
+    elseif kind == 2
+        alpha = -abfactor * (deriv ? airy_zeros().biprime[m] : airy_zeros().bi[m])
+    else
+        throw(ArgumentError("kind must be 1 or 2 but is $kind"))
+    end
+
+    alphap2 = alpha * alpha
+    alphap3 = alpha * alphap2
+    alphap4 = alpha * alphap3
+    alphap5 = alpha * alphap4
+
+    alpha0 = 1.0
+    alpha1 = alpha
+
+    if deriv
+        alpha2 = 3 * alphap2 / 10 - inv(10 * alpha)
+        alpha3 = -(alphap3 / 350 + inv(25) + inv(200 * alphap3))
+        alpha4 = -479 * alphap4 / 630_000 + 509 * alpha / 31_500 + inv(1500 * alphap2) - inv(2_000 * alphap5)
+        alpha5 = 0.0
+    else
+        alpha2 = 3 * alphap2 / 10
+        alpha3 = -alphap3 / 350 + inv(70)
+        alpha4 = -(479 * alphap4 / 63_000 + alpha / 3150)
+        alpha5 = 20_231 * alphap5 / 8_085_000 - 551 * alphap2 / 161_700
+    end
+
+    x = inv(cbrt(nu)^2)
+    xpk = 1.0
+    zsum = lastterm = alpha0
+    for alphak in (alpha1, alpha2, alpha3, alpha4, alpha5)
+        xpk *= x
+        nextterm = alphak * xpk
+        abs(nextterm) > abs(lastterm) && break # Asymptotic series starting to diverge
+        zsum += nextterm
+        lastterm = nextterm
+    end
+
+    zsum *= nu
+    return zsum
 end
 
 end # module FunctionZeros
