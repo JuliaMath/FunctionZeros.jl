@@ -9,7 +9,7 @@ SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 
 [compat]
 Aqua = ">= 0.8"
-Roots = "0.8, 1, 2"
+Roots = "0.8, 1, 2, 3"
 SpecialFunctions = "0.8, 0.9, 0.10, 1, 2"
 Test = ">= 0.0"
 julia = "1"
